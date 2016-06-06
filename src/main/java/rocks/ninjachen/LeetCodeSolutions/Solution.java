@@ -1,22 +1,37 @@
 package rocks.ninjachen.LeetCodeSolutions;
 
 /**
- * 233 NumberOfDigitOne
- * https://leetcode.com/problems/number-of-digit-one/
- * Created by ninja on 6/4/16.
+ * Created by ninja on 6/7/16.
  */
-public class Solution {
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.countDigitOne(13));
+class Solution {
+    public static void main(String[] arg){
+        testCase1();
     }
 
-    public int countDigitOne(int n) {
-        if (n <= 0) return 0;
-        for (int i=0;i<=n;i++){
-            //count 1 in one number
+    private static void testCase1() {
+        Solution solution = new Solution();
+        System.out.println(solution.solution(1024));
+    }
 
+    public int solution(int N) {
+        // write your code in Java SE 8
+        int maxCount=0;
+        int curCount=0;
+        while(N > 0){
+            if((N|0) == 0){
+                curCount++;
+            }else{
+                if(curCount > maxCount){
+                    maxCount=curCount;
+                    curCount=0;
+                }
+            }
+            N = N >> 1;
         }
-        return 0;
+        if(curCount > maxCount){
+            maxCount = curCount;
+            curCount=0;
+        }
+        return maxCount;
     }
 }
