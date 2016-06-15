@@ -3,9 +3,9 @@ package rocks.ninjachen.LeetCodeSolutions;
 /**
  * Created by ninja on 6/7/16.
  */
-public class Solution2 {
+public class BalancePointOfTradeHero {
     public static void main(String[] args) {
-        Solution2 s = new Solution2();
+        BalancePointOfTradeHero s = new BalancePointOfTradeHero();
         int N = 102;
         System.out.print(s.solution(N));
     }

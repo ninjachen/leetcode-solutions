@@ -3,7 +3,7 @@ package rocks.ninjachen.LeetCodeSolutions;
 /**
  * Created by ninja on 6/7/16.
  */
-public class Solution3 {
+public class ShuffleOfTradeHero {
     public int solution(int A, int B, int C, int D) {
         // write your code in Java SE 8
         // find the max,and min,put them at index 0 and 1
@@ -41,19 +41,19 @@ public class Solution3 {
         result[10][0] = B;result[10][1] = D;result[10][2] = A;result[10][3] = C;
         result[11][0] = B;result[11][1] = D;result[11][2] = C;result[11][3] = A;
 
-        result[12][0] = A;result[12][1] = B;result[12][2] = C;result[12][3] = D;
-        result[13][0] = A;result[13][1] = B;result[13][2] = D;result[13][3] = C;
-        result[14][0] = A;result[14][1] = C;result[14][2] = D;result[14][3] = B;
-        result[15][0] = A;result[15][1] = C;result[15][2] = B;result[15][3] = D;
-        result[16][0] = A;result[16][1] = D;result[16][2] = B;result[16][3] = C;
-        result[17][0] = A;result[17][1] = D;result[17][2] = C;result[17][3] = B;
+        result[12][0] = C;result[12][1] = B;result[12][2] = A;result[12][3] = D;
+        result[13][0] = C;result[13][1] = B;result[13][2] = D;result[13][3] = C;
+        result[14][0] = C;result[14][1] = A;result[14][2] = D;result[14][3] = B;
+        result[15][0] = C;result[15][1] = C;result[15][2] = B;result[15][3] = D;
+        result[16][0] = C;result[16][1] = D;result[16][2] = B;result[16][3] = A;
+        result[17][0] = C;result[17][1] = D;result[17][2] = A;result[17][3] = B;
 
-        result[18][0] = A;result[18][1] = B;result[18][2] = C;result[18][3] = D;
-        result[19][0] = A;result[19][1] = B;result[19][2] = D;result[19][3] = C;
-        result[20][0] = A;result[20][1] = C;result[20][2] = D;result[20][3] = B;
-        result[21][0] = A;result[21][1] = C;result[21][2] = B;result[21][3] = D;
-        result[22][0] = A;result[22][1] = D;result[22][2] = B;result[22][3] = C;
-        result[23][0] = A;result[23][1] = D;result[23][2] = C;result[23][3] = B;
+        result[18][0] = D;result[18][1] = B;result[18][2] = C;result[18][3] = A;
+        result[19][0] = D;result[19][1] = B;result[19][2] = A;result[19][3] = C;
+        result[20][0] = D;result[20][1] = C;result[20][2] = D;result[20][3] = B;
+        result[21][0] = D;result[21][1] = C;result[21][2] = B;result[21][3] = A;
+        result[22][0] = D;result[22][1] = A;result[22][2] = B;result[22][3] = C;
+        result[23][0] = D;result[23][1] = A;result[23][2] = C;result[23][3] = B;
         return null;
     }
 

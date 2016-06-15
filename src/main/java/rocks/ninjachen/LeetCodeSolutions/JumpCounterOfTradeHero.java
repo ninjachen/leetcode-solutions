@@ -1,14 +1,15 @@
 package rocks.ninjachen.LeetCodeSolutions;
 
 /**
+ * The solutions are about tradehero's online interview, I donot exact name of it.
  * Created by ninja on 6/7/16.
  */
 // you can write to stdout for debugging purposes, e.g.
 // System.out.println("this is a debug message");
 
-class Solution {
+class JumpCounterOfTradeHero {
     public static void main(String[] args) {
-        Solution s = new Solution();
+        JumpCounterOfTradeHero s = new JumpCounterOfTradeHero();
         int[] A = {2, 3, -1, 1, 3};
         System.out.print(s.solution(A));
     }
