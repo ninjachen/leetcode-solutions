@@ -3,6 +3,7 @@ package rocks.ninjachen.hacker_rank_soulutions;
 import java.util.*;
 
 /**
+ * todo the algorithm is not finshed
  * The anagram problem is from one online contest . Online contest service is provided by the HackerRank.
  */
 public class Anagram {

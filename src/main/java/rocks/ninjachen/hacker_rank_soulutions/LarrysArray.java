@@ -22,6 +22,7 @@ public class LarrysArray {
             boolean sorted = canBeSorted(arr);
             System.out.println(sorted ? "YES" : "NO");
         }
+        scanner.close();
     }
 
     public static boolean canBeSorted(int... args) {
