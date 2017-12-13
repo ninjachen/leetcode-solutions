@@ -1,4 +1,4 @@
-package rocks.ninjachen.LeetCodeSolutions;
+package rocks.ninjachen.leet_code_solutions;
 
 /**
  * The solutions are about tradehero's online interview, I donot exact name of it.

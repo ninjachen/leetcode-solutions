@@ -1,4 +1,4 @@
-package rocks.ninjachen.LeetCodeSolutions;
+package rocks.ninjachen.leet_code_solutions;
 
 /**
  * binary gap
