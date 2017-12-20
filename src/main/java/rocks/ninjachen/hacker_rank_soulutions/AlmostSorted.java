@@ -1,5 +1,7 @@
 package rocks.ninjachen.hacker_rank_soulutions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -15,7 +17,7 @@ public class AlmostSorted {
             inputs[i] = scanner.nextInt();
         }
         scanner.close();
-        String str = almostSorted(inputs);
+        System.out.println(almostSorted(inputs));
     }
 
     /**
@@ -28,8 +30,8 @@ public class AlmostSorted {
      * @param inputs
      * @return
      */
-    private static String almostSorted(int[] inputs) {
-        Integer unSortedStartIndex = unSortedStartIndex(inputs);
+    public static String almostSorted(int[] inputs) {
+        Integer unSortedStartIndex = unSortedStartIndex(inputs, 0, inputs.length - 1);
         // Already sorted
         if (unSortedStartIndex == null) {
             return "yes";
@@ -38,11 +40,11 @@ public class AlmostSorted {
         // Unsorted array is [$unSortedStartIndex, length-1]
         int[] swapRange = canSwap(inputs, unSortedStartIndex, length - 1);
         if (swapRange != null) {
-            return "swap " + swapRange[0] + " " + swapRange[1];
+            return "yes\nswap " + ++swapRange[0] + " " + ++swapRange[1];
         }
         int[] reverseRange = canReverse(inputs, unSortedStartIndex, length - 1);
         if (reverseRange != null) {
-            return "reverse " + reverseRange[0] + " " + reverseRange[1];
+            return "yes\nreverse " + ++reverseRange[0] + " " + ++reverseRange[1];
         }
         // Other wise, return no
         return "no";
@@ -57,12 +59,34 @@ public class AlmostSorted {
      * @return null when can not swap, otherwise return {m, n}
      */
     private static int[] canSwap(int[] inputs, int startIndex, int endIndex) {
-        if (startIndex <= endIndex) return null;
-        boolean oldUp = (inputs[startIndex + 1] - inputs[startIndex]) > 0;
-        for (int i = startIndex + 1; i <= endIndex; i++) {
-
+        if (startIndex >= endIndex) return null;
+        int[] result = new int[2];
+        int firstUnsorted = startIndex;
+        if (endIndex - startIndex == 1) {
+            result[0] = startIndex;
+            result[1] = endIndex;
+            return result;
+        }
+        for (int i = firstUnsorted + 1; i <= endIndex - 1; i++) {
+            // swap firstUnsorted,i; check is sorted
+            int[] array1 = new int[inputs.length];
+            // copy to prevent side effect
+            System.arraycopy(inputs, 0, array1, 0, inputs.length);
+            // swap [firstUnsorted, i]
+            int tmp = array1[i];
+            array1[i] = array1[firstUnsorted];
+            array1[firstUnsorted] = tmp;
+            if (isSorted(array1)) {
+                result[0] = firstUnsorted;
+                result[1] = i;
+                return result;
+            }
         }
         return null;
+    }
+
+    private static boolean isSorted(int[] input) {
+        return unSortedStartIndex(input, 0, input.length-1) == null;
     }
 
     /**
@@ -74,7 +98,34 @@ public class AlmostSorted {
      * @return null when can not reverse, otherwise return {m, n}
      */
     private static int[] canReverse(int[] inputs, int startIndex, int endIndex) {
+        if (startIndex >= endIndex) return null;
+        int[] result = new int[2];
+        int firstUnsorted = startIndex;
+        for (int i = firstUnsorted + 1; i <= endIndex - 1; i++) {
+            // copy to prevent side effect
+            // reserve [firstUnsorted, i]
+            int[] array1 = reserve(inputs, firstUnsorted, i);
+            if (isSorted(array1)) {
+                result[0] = firstUnsorted;
+                result[1] = i;
+                return result;
+            }
+        }
         return null;
+    }
+
+    private static int[] reserve(int[] inputs, int i, int j) {
+        List<Integer> reserved = new ArrayList<>();
+        int[] array = new int[inputs.length];
+        System.arraycopy(inputs, 0, array, 0, inputs.length);
+        // i => j
+        int indexOfInput = i;
+        for (int indexOfArray = j; indexOfArray >= i; indexOfArray--) {
+            // j =>
+            array[indexOfArray] = inputs[indexOfInput];
+            indexOfInput++;
+        }
+        return array;
     }
 
 //    private static boolean sorted(int[] inputs) {
@@ -92,15 +143,15 @@ public class AlmostSorted {
      * Return first unsorted item index
      *
      * @param inputs
+     * @param startIndex include
+     * @param endIndex   include
      * @return n when all item is sorted
      */
-    private static Integer unSortedStartIndex(int[] inputs) {
-        int n = inputs[0];
-        for (int i = 0; i < inputs.length; i++) {
-            if (n > inputs[i]) {
+    private static Integer unSortedStartIndex(int[] inputs, int startIndex, int endIndex) {
+        for (int i = startIndex; i <= endIndex - 1; i++) {
+            if (inputs[i] > inputs[i + 1]) {
                 return i;
             }
-            n = inputs[i];
         }
         return null;
     }
