@@ -3,6 +3,7 @@ package rocks.ninjachen.hacker_rank_soulutions;
 import java.util.Scanner;
 
 /**
+ * https://www.hackerrank.com/challenges/almost-sorted/problem
  * Created by ninja on 12/13/17.
  */
 public class AlmostSorted {
@@ -35,34 +36,48 @@ public class AlmostSorted {
         }
         int length = inputs.length;
         // Unsorted array is [$unSortedStartIndex, length-1]
-        int[] swapRange = canSwap(inputs, unSortedStartIndex, length-1);
-        int[] reverseRange = canReverse(inputs, unSortedStartIndex, length-1);
+        int[] swapRange = canSwap(inputs, unSortedStartIndex, length - 1);
+        if (swapRange != null) {
+            return "swap " + swapRange[0] + " " + swapRange[1];
+        }
+        int[] reverseRange = canReverse(inputs, unSortedStartIndex, length - 1);
+        if (reverseRange != null) {
+            return "reverse " + reverseRange[0] + " " + reverseRange[1];
+        }
+        // Other wise, return no
         return "no";
     }
 
     /**
+     * Scan the inputs[startIndex] ~ inputs[endIndex], check is exist a range to swap
      *
      * @param inputs
      * @param startIndex
      * @param endIndex
      * @return null when can not swap, otherwise return {m, n}
      */
-    private static int[] canSwap(int[] inputs, int startIndex, int endIndex ) {
+    private static int[] canSwap(int[] inputs, int startIndex, int endIndex) {
+        if (startIndex <= endIndex) return null;
+        boolean oldUp = (inputs[startIndex + 1] - inputs[startIndex]) > 0;
+        for (int i = startIndex + 1; i <= endIndex; i++) {
+
+        }
         return null;
     }
 
     /**
+     * Scan the inputs[startIndex] ~ inputs[endIndex], check is exist a range to swap
      *
      * @param inputs
      * @param startIndex
      * @param endIndex
      * @return null when can not reverse, otherwise return {m, n}
      */
-    private static int[] canReverse(int[] inputs, int startIndex, int endIndex ) {
+    private static int[] canReverse(int[] inputs, int startIndex, int endIndex) {
         return null;
     }
 
-//    private static boolean isSorted(int[] inputs) {
+//    private static boolean sorted(int[] inputs) {
 //        int n = inputs[0];
 //        for (int i = 0; i < inputs.length; i++) {
 //            if (n > inputs[i]) {
