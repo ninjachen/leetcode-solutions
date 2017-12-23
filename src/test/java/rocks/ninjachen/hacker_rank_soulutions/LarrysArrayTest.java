@@ -1,7 +1,5 @@
 package rocks.ninjachen.hacker_rank_soulutions;
 
-import org.junit.Assert;
-
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,46 +45,45 @@ public class LarrysArrayTest {
 
     @org.junit.Test
     public void testCase3() throws Exception {
-        InputStream testcastIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/larrys-array-testcase1.txt");
+        InputStream inputIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/larrys-array-input1.txt");
         InputStream expectIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/larrys-array-expect1.txt");
+        HashMap<int[], String> testCases = new HashMap<>();
         try {
-            BufferedReader casereader = new BufferedReader(new InputStreamReader(testcastIn));
+            BufferedReader inputreader = new BufferedReader(new InputStreamReader(inputIn));
             BufferedReader expectreader = new BufferedReader(new InputStreamReader(expectIn));
-            HashMap<int[], String> hashMap = new HashMap<>();
-
-
-            if (testcastIn != null && expectreader != null) {
+            /** Read test case file into map(named testCases), structure is <input, expect> **/
+            if (inputreader != null && expectreader != null) {
                 String str;
-                if ((str = casereader.readLine()) != null) {
+                if ((str = inputreader.readLine()) != null) {
                     Integer amount = Integer.valueOf(str);
-                    // Read input test case and their expect
+                    // Read inputs and their expect into
                     for (int i = 0; i < amount; i++) {
-                        str = casereader.readLine();
-                        if ((str = casereader.readLine()) != null) {
+                        str = inputreader.readLine();
+                        if ((str = inputreader.readLine()) != null) {
                             String[] strs = str.trim().split("\\s+");
                             int[] nums = new int[strs.length];
                             for (int j = 0; j < strs.length; j++) {
                                 nums[j] = Integer.valueOf(strs[j]);
                             }
-                            hashMap.put(nums, expectreader.readLine().trim());
-                        }
-                    }
-
-                    // Do assert
-                    for (Map.Entry<int[], String> entry : hashMap.entrySet()){
-                        if(entry.getValue().equals(str)){
-                            assertTrue(LarrysArray.canBeSorted(entry.getKey()));
-                        }else {
-                            assertFalse(LarrysArray.canBeSorted(entry.getKey()));
+                            testCases.put(nums, expectreader.readLine().trim());
                         }
                     }
                 }
             }
         } finally {
             try {
-                testcastIn.close();
+                inputIn.close();
                 expectIn.close();
             } catch (Throwable ignore) {
+            }
+        }
+
+        /** Assert algorithm **/
+        for (Map.Entry<int[], String> entry : testCases.entrySet()){
+            if(entry.getValue().equals("YES")){
+                assertTrue(LarrysArray.canBeSorted(entry.getKey()));
+            }else {
+                assertFalse(LarrysArray.canBeSorted(entry.getKey()));
             }
         }
     }
