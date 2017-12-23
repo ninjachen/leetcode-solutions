@@ -1,6 +1,7 @@
 package rocks.ninjachen.hacker_rank_soulutions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,91 +32,64 @@ public class AlmostSorted {
      * @return
      */
     public static String almostSorted(int[] inputs) {
-        Integer unSortedStartIndex = unSortedStartIndex(inputs, 0, inputs.length - 1);
         // Already sorted
-        if (unSortedStartIndex == null) {
+        if (isSorted(inputs, 0, inputs.length - 1)) {
             return "yes";
         }
-        int length = inputs.length;
-        // Unsorted array is [$unSortedStartIndex, length-1]
-        int[] swapRange = canSwap(inputs, unSortedStartIndex, length - 1);
-        if (swapRange != null) {
-            return "yes\nswap " + ++swapRange[0] + " " + ++swapRange[1];
-        }
-        int[] reverseRange = canReverse(inputs, unSortedStartIndex, length - 1);
-        if (reverseRange != null) {
-            return "yes\nreverse " + ++reverseRange[0] + " " + ++reverseRange[1];
-        }
-        // Other wise, return no
-        return "no";
-    }
-
-    /**
-     * Scan the inputs[startIndex] ~ inputs[endIndex], check is exist a range to swap
-     *
-     * @param inputs
-     * @param startIndex
-     * @param endIndex
-     * @return null when can not swap, otherwise return {m, n}
-     */
-    private static int[] canSwap(int[] inputs, int startIndex, int endIndex) {
-        if (startIndex >= endIndex) return null;
-        int[] result = new int[2];
-        int firstUnsorted = startIndex;
-        if (endIndex - startIndex == 1) {
-            result[0] = startIndex;
-            result[1] = endIndex;
-            return result;
-        }
-        for (int i = firstUnsorted + 1; i <= endIndex - 1; i++) {
-            // swap firstUnsorted,i; check is sorted
-            int[] array1 = new int[inputs.length];
-            // copy to prevent side effect
-            System.arraycopy(inputs, 0, array1, 0, inputs.length);
-            // swap [firstUnsorted, i]
-            int tmp = array1[i];
-            array1[i] = array1[firstUnsorted];
-            array1[firstUnsorted] = tmp;
-            if (isSorted(array1)) {
-                result[0] = firstUnsorted;
-                result[1] = i;
-                return result;
+        int[] sorted = new int[inputs.length];
+        System.arraycopy(inputs, 0, sorted, 0, inputs.length);
+        Arrays.sort(sorted);
+        List<Integer> unsortedIndex = new ArrayList<>();
+        for(int i = 0; i<inputs.length;i++){
+            if(inputs[i] != sorted[i]){
+                unsortedIndex.add(i);
             }
         }
-        return null;
-    }
+        if(unsortedIndex.size() == 2){
+            int first = unsortedIndex.get(0);
+            int second = unsortedIndex.get(1);
+            return "yes\nswap " + ++first + " " + ++second;
+        }
 
-    private static boolean isSorted(int[] input) {
-        return unSortedStartIndex(input, 0, input.length-1) == null;
-    }
-
-    /**
-     * Scan the inputs[startIndex] ~ inputs[endIndex], check is exist a range to swap
-     *
-     * @param inputs
-     * @param startIndex
-     * @param endIndex
-     * @return null when can not reverse, otherwise return {m, n}
-     */
-    private static int[] canReverse(int[] inputs, int startIndex, int endIndex) {
-        if (startIndex >= endIndex) return null;
-        int[] result = new int[2];
-        int firstUnsorted = startIndex;
-        for (int i = firstUnsorted + 1; i <= endIndex - 1; i++) {
-            // copy to prevent side effect
-            // reserve [firstUnsorted, i]
-            int[] array1 = reserve(inputs, firstUnsorted, i);
-            if (isSorted(array1)) {
-                result[0] = firstUnsorted;
-                result[1] = i;
-                return result;
+        /**
+         * <del>un-continuous array can not be reserved</del>
+         * A corner case is the middle element can be equal and can be subreserve
+         */
+//        if(!iscontinuous(unsortedIndex)){
+//            return "no";
+//        }
+        // do a subreserve
+        int[] reserved = subreserve(inputs, unsortedIndex.get(0), unsortedIndex.get(unsortedIndex.size() - 1));
+        // travel all the unsorted elements, check is sorted
+        for (int i = 0;i<unsortedIndex.size();i++){
+            int index = unsortedIndex.get(i);
+            if(reserved[index] != sorted[index]){
+                return "no";
             }
         }
-        return null;
+        // can be reserved
+        int first = unsortedIndex.get(0);
+        int last = unsortedIndex.get(unsortedIndex.size()-1);
+        return "yes\nreverse " + ++first + " " + ++last;
     }
 
-    private static int[] reserve(int[] inputs, int i, int j) {
-        List<Integer> reserved = new ArrayList<>();
+    private static boolean iscontinuous(List<Integer> integers) {
+        if(integers.size() >=2){
+            int prev = integers.get(0);
+            for (int i=1;i<integers.size();i++){
+                int cur = integers.get(i);
+                if(cur - prev != 1){
+                    return false;
+                }
+                prev = cur;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // Do a sub-reserve of inputs, from i to j
+    private static int[] subreserve(int[] inputs, int i, int j) {
         int[] array = new int[inputs.length];
         System.arraycopy(inputs, 0, array, 0, inputs.length);
         // i => j
@@ -128,17 +102,6 @@ public class AlmostSorted {
         return array;
     }
 
-//    private static boolean sorted(int[] inputs) {
-//        int n = inputs[0];
-//        for (int i = 0; i < inputs.length; i++) {
-//            if (n > inputs[i]) {
-//                return false;
-//            }
-//            n = inputs[i];
-//        }
-//        return false;
-//    }
-
     /**
      * Return first unsorted item index
      *
@@ -147,13 +110,13 @@ public class AlmostSorted {
      * @param endIndex   include
      * @return n when all item is sorted
      */
-    private static Integer unSortedStartIndex(int[] inputs, int startIndex, int endIndex) {
+    private static boolean isSorted(int[] inputs, int startIndex, int endIndex) {
         for (int i = startIndex; i <= endIndex - 1; i++) {
             if (inputs[i] > inputs[i + 1]) {
-                return i;
+                return false;
             }
         }
-        return null;
+        return true;
     }
 
 }

@@ -58,7 +58,7 @@ public class LarrysArrayTest {
                     Integer amount = Integer.valueOf(str);
                     // Read inputs and their expect into
                     for (int i = 0; i < amount; i++) {
-                        str = inputreader.readLine();
+                        str = inputreader.readLine(); // number of ints, never used
                         if ((str = inputreader.readLine()) != null) {
                             String[] strs = str.trim().split("\\s+");
                             int[] nums = new int[strs.length];
