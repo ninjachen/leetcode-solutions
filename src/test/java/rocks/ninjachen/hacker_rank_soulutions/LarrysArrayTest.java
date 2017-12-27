@@ -1,5 +1,9 @@
 package rocks.ninjachen.hacker_rank_soulutions;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,17 +13,17 @@ import static org.junit.Assert.*;
  * Created by ninja on 12/13/17.
  */
 public class LarrysArrayTest {
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
 
     }
 
-    @org.junit.After
+    @After
     public void tearDown() throws Exception {
 
     }
 
-    @org.junit.Test
+    @Test
     public void testCase1() throws Exception {
         // 3 1 2 should be YES
         assertTrue(LarrysArray.canBeSorted(3, 1, 2));
@@ -29,7 +33,7 @@ public class LarrysArrayTest {
         assertFalse(LarrysArray.canBeSorted(1, 2, 3, 5, 4));
     }
 
-    @org.junit.Test
+    @Test
     public void testCase2() throws Exception {
         // 9 6 8 12 3 7 1 11 10 2 5 4 should be NO
         assertFalse(LarrysArray.canBeSorted(9, 6, 8, 12, 3, 7, 1, 11, 10, 2, 5, 4));
@@ -43,7 +47,7 @@ public class LarrysArrayTest {
         assertFalse(LarrysArray.canBeSorted(7, 9, 15, 8, 10, 16, 6, 14, 5, 13, 17, 12, 3, 11, 4, 1, 18, 2));
     }
 
-    @org.junit.Test
+    @Test
     public void testCase3() throws Exception {
         InputStream inputIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/larrys-array-input1.txt");
         InputStream expectIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/larrys-array-expect1.txt");
