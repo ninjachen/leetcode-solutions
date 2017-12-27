@@ -1,5 +1,7 @@
 package rocks.ninjachen.hacker_rank_soulutions;
 
+import org.junit.Test;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,24 +27,24 @@ public class AlmostSortedTest {
 //        System.setErr(null);
 //    }
 
-    @org.junit.Test
+    @Test
     public void testCase1() throws Exception {
         // 3 1 2 should be YES
         int[] input = {4, 2};
         assertEquals("yes\nswap 1 2", AlmostSorted.almostSorted(input));
     }
 
-    @org.junit.Test
+    @Test
     public void testCase2() throws Exception {
         // 3 1 2 should be YES
         int[] input = {1, 5, 4, 3, 2, 6};
         assertEquals("yes\nreverse 2 5", AlmostSorted.almostSorted(input));
     }
 
-    @org.junit.Test
+    @Test
     public void testCase3() throws Exception {
-        InputStream inputIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/almost-sorted-input1.txt");
-        InputStream expectIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/almost-sorted-expect1.txt");
+        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "almost-sorted-input1.txt");
+        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "almost-sorted-expect1.txt");
         HashMap<int[], String> testCases = new HashMap<>();
         try {
             BufferedReader inputreader = new BufferedReader(new InputStreamReader(inputIn));
@@ -74,7 +76,7 @@ public class AlmostSortedTest {
 
         /** Assert algorithm **/
         for (Map.Entry<int[], String> entry : testCases.entrySet()) {
-            assertEquals(entry.getValue(), AlmostSorted.almostSorted(entry.getKey()));
+            assertEquals(AlmostSorted.almostSorted(entry.getKey()), entry.getValue());
         }
     }
 

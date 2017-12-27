@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -49,8 +50,8 @@ public class LarrysArrayTest {
 
     @Test
     public void testCase3() throws Exception {
-        InputStream inputIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/larrys-array-input1.txt");
-        InputStream expectIn = getClass().getClassLoader().getResourceAsStream("rocks/ninjachen/hacker_rank_solutions/larrys-array-expect1.txt");
+        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "larrys-array-input1.txt");
+        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "larrys-array-expect1.txt");
         HashMap<int[], String> testCases = new HashMap<>();
         try {
             BufferedReader inputreader = new BufferedReader(new InputStreamReader(inputIn));
@@ -83,10 +84,10 @@ public class LarrysArrayTest {
         }
 
         /** Assert algorithm **/
-        for (Map.Entry<int[], String> entry : testCases.entrySet()){
-            if(entry.getValue().equals("YES")){
+        for (Map.Entry<int[], String> entry : testCases.entrySet()) {
+            if (entry.getValue().equals("YES")) {
                 assertTrue(LarrysArray.canBeSorted(entry.getKey()));
-            }else {
+            } else {
                 assertFalse(LarrysArray.canBeSorted(entry.getKey()));
             }
         }
