@@ -10,49 +10,74 @@ public class Anagram {
     public static void main(String args[] ) throws Exception {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT */
         List<String> allInput = new ArrayList<>();
-        List<Map<Character, Integer>> allInputAttr = new ArrayList<>();
-        List<Set<String>> output = new ArrayList<>();
+        HashMap<String, Map<Character, Integer>> allInputAttr = new HashMap<>();
+        List<List<String>> output = new ArrayList<>();
 
         // Read input
         Scanner sc = new Scanner(System.in);
-        String inputLine;
+        String inputWord;
         while(sc.hasNext()){
-            inputLine = sc.next();
-            allInput.add(inputLine);
+            inputWord = sc.nextLine();
+            allInput.add(inputWord);
         }
+        sc.close();
         // Sort
         Collections.sort(allInput);
         // Analyze input
-        for(int i =0; i < allInput.size(); i++){
-            inputLine = allInput.get(i);
-            allInputAttr.add(analyze(inputLine));
+        for(int i = 0; i < allInput.size(); i++){
+            inputWord = allInput.get(i);
+            allInputAttr.put(inputWord, analyze(inputWord));
         }
 
         // Group
+        Iterator<String> itr = allInput.listIterator();
+        // A set to flag the dealed inputs
         Set<String> dealedInputs = new HashSet();
-        for(int i = 0; i < allInput.size(); i++){
-            inputLine = allInput.get(i);
-            if(dealedInputs.contains(inputLine))
+        while (itr.hasNext()){
+            inputWord = itr.next();
+            if(dealedInputs.contains(inputWord))
                 continue;
-            String tmpLine;
-            Set<String> anagramStrs = new HashSet();
-            for(int j = 1; j < allInput.size(); j++){
-                tmpLine = allInput.get(i);
-                if(dealedInputs.contains(tmpLine))
+            Iterator<String> itr2 = allInput.iterator();
+            List<String> sameGroup = new ArrayList<>();
+            sameGroup.add(inputWord);
+            dealedInputs.add(inputWord);
+            while (itr2.hasNext()){
+                String tmpWord = itr2.next();
+                if(dealedInputs.contains(tmpWord))
                     continue;
-                // Compareing inputLine with tmpLine
-                if(equals(allInputAttr.get(i), allInputAttr.get(j))){
-                    dealedInputs.add(inputLine);
-                    dealedInputs.add(tmpLine);
-                    anagramStrs.add(inputLine);
-                    anagramStrs.add(tmpLine);
+                // Hit the anagram, group
+                if(equals(allInputAttr.get(inputWord), allInputAttr.get(tmpWord))){
+                    sameGroup.add(tmpWord);
+                    dealedInputs.add(tmpWord);
                 }
             }
-            output.add(anagramStrs);
+            output.add(sameGroup);
         }
+
+//        Set<String> dealedInputs = new HashSet();
+//        for(int i = 0; i < allInput.size(); i++){
+//            inputWord = allInput.get(i);
+//            if(dealedInputs.contains(inputWord))
+//                continue;
+//            String tmpLine;
+//            Set<String> anagramStrs = new HashSet();
+//            for(int j = 1; j < allInput.size(); j++){
+//                tmpLine = allInput.get(j);
+//                if(dealedInputs.contains(tmpLine))
+//                    continue;
+//                // Comparing inputLine with tmpLine
+//                if(equals(allInputAttr.get(i), allInputAttr.get(j))){
+//                    dealedInputs.add(inputWord);
+//                    dealedInputs.add(tmpLine);
+//                    anagramStrs.add(inputWord);
+//                    anagramStrs.add(tmpLine);
+//                }
+//            }
+//            output.add(anagramStrs);
+//        }
         // Output
         for(int i = 0; i < output.size(); i++){
-            Set<String> set = output.get(i);
+            List<String> set = output.get(i);
             StringBuffer sb = new StringBuffer();
             for(String s : set){
                 sb.append(s);
@@ -75,6 +100,8 @@ public class Anagram {
         Integer count;
         for(int i = 0; i < input.length(); i++){
             c = input.charAt(i);
+            if(c == ' ')
+                continue;
             count = attrs.get(c);
             if(count == null)
                 count = 0;
@@ -84,7 +111,10 @@ public class Anagram {
     }
 
     /**
-     * todo
+     * Is two word are anagram
+     * @param m1
+     * @param m2
+     * @return
      */
     public static boolean equals(Map<Character, Integer> m1, Map<Character, Integer> m2){
         if(m1.size() != m2.size()){
