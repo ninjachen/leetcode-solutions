@@ -1,5 +1,12 @@
 apply plugin: 'java'
 
+repositories {
+    maven {url  'https://maven.aliyun.com/repository/central'}
+    maven {url 'https://maven.aliyun.com/repository/jcenter'}
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
 }
