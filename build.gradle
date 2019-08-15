@@ -1,9 +1,13 @@
 apply plugin: 'java'
 
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
     maven {url  'https://maven.aliyun.com/repository/central'}
     maven {url 'https://maven.aliyun.com/repository/jcenter'}
     mavenCentral()
+
 }
 
 dependencies {
