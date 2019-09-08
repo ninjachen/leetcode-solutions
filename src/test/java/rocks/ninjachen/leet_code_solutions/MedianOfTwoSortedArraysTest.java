@@ -23,4 +23,28 @@ public class MedianOfTwoSortedArraysTest {
         // 3 1 2 should be YES
         assertEquals(2.5, solution.findMedianSortedArrays(nums1, nums2),0);
     }
+
+    @Test
+    public void testCase3() {
+        int[] nums1 = {};
+        int[] nums2 = {1};
+        // 3 1 2 should be YES
+        assertEquals(1, solution.findMedianSortedArrays(nums1, nums2),0);
+    }
+
+    @Test
+    public void testCase4() {
+        int[] nums1 = {};
+        int[] nums2 = {2,3};
+        // 3 1 2 should be YES
+        assertEquals(2.5, solution.findMedianSortedArrays(nums1, nums2),0);
+    }
+
+    @Test
+    public void testCase5() {
+        int[] nums1 = {1,2,3,6,7};
+        int[] nums2 = {4,5,8,9,10};
+        // 3 1 2 should be YES
+        assertEquals(5.5, solution.findMedianSortedArrays(nums1, nums2),0);
+    }
 }
