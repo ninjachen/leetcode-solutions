@@ -50,8 +50,8 @@ public class LarrysArrayTest {
 
     @Test
     public void testCase3() throws Exception {
-        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "larrys-array-input1.txt");
-        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "larrys-array-expect1.txt");
+        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR_HACKRANK + "larrys-array-input1.txt");
+        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR_HACKRANK + "larrys-array-expect1.txt");
         HashMap<int[], String> testCases = new HashMap<>();
         try {
             BufferedReader inputreader = new BufferedReader(new InputStreamReader(inputIn));

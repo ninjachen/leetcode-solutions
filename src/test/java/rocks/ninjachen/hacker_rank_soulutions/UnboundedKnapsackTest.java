@@ -2,9 +2,7 @@ package rocks.ninjachen.hacker_rank_soulutions;
 
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -27,8 +25,8 @@ public class UnboundedKnapsackTest {
 
     @Test
     public void solveKnapsack1() throws Exception {
-        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "unbounded-knapsack-input1.txt");
-        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "unbounded-knapsack-expect1.txt");
+        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR_HACKRANK + "unbounded-knapsack-input1.txt");
+        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR_HACKRANK + "unbounded-knapsack-expect1.txt");
         HashMap<int[], String> testCases = new HashMap<>();
         try {
             Scanner inputScanner = new Scanner(inputIn);

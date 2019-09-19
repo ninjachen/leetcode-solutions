@@ -43,8 +43,8 @@ public class AlmostSortedTest {
 
     @Test
     public void testCase3() throws Exception {
-        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "almost-sorted-input1.txt");
-        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "almost-sorted-expect1.txt");
+        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR_HACKRANK + "almost-sorted-input1.txt");
+        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR_HACKRANK + "almost-sorted-expect1.txt");
         HashMap<int[], String> testCases = new HashMap<>();
         try {
             BufferedReader inputreader = new BufferedReader(new InputStreamReader(inputIn));

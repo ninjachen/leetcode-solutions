@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import static org.junit.Assert.*;
@@ -38,10 +37,10 @@ public class AnagramTest {
 
     @Test
     public void main() throws Exception {
-        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "anagram-input1.txt");
+        InputStream inputIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR_HACKRANK + "anagram-input1.txt");
         System.setIn(inputIn);
         Anagram.main(null);
-        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR + "anagram-expect1.txt");
+        InputStream expectIn = getClass().getClassLoader().getResourceAsStream(Constants.BASE_DIR_HACKRANK + "anagram-expect1.txt");
         Scanner sc = new Scanner(expectIn).useDelimiter("\\A");
 //        BufferedReader br = new BufferedReader(new InputStreamReader(expectIn));
 //        StringBuffer sb = new StringBuffer();
