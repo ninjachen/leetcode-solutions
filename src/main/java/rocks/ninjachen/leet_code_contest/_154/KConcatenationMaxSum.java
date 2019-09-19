@@ -1,15 +1,16 @@
 package rocks.ninjachen.leet_code_contest._154;
 
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * https://leetcode.com/problems/k-concatenation-maximum-sum/
+ */
 public class KConcatenationMaxSum {
     private final static int mod = (int) (Math.pow(10, 9) + 7);
 
     public int kConcatenationMaxSum(int[] arr, int k) {
         boolean allPositive = true;
         boolean allNegative = true;
-        int oneLoopSum = 0;
+        long oneLoopSum = 0;
         for (int i : arr) {
             if (i > 0) {
                 allNegative = false;
@@ -31,12 +32,6 @@ public class KConcatenationMaxSum {
             return 0;
         } else {
             // Find out 2 possible max sum, one is max sum in one loop, one is maxSumTo the bottom + (k-1)*sumOfSingleLoop
-            List<Integer> positiveIndexs = new ArrayList<>();
-            for (int i = 0; i < arr.length; i++) {
-                if (arr[i] > 0) {
-                    positiveIndexs.add(i);
-                }
-            }
             int maxSumInOneLoop = 0;
             int curSum = 0;
 
@@ -55,18 +50,17 @@ public class KConcatenationMaxSum {
             }
 
             //Find out max sum
-            int maxSumPossible1 = maxSumInOneLoop % mod;
-            int maxSumPossible2 = 0;
+            long maxSumPossible1 = maxSumInOneLoop % mod;
+            long maxSumPossible2 = 0;
             if (k > 1) {
-                int prefixSum = maxPrefixSum(arr);
-                int suffixSum = maxSuffixSum(arr);
-                if(oneLoopSum < 0){
+                long prefixSum = maxPrefixSum(arr);
+                long suffixSum = maxSuffixSum(arr);
+                if (oneLoopSum < 0) {
                     oneLoopSum = 0;
                 }
-                maxSumPossible2 = (suffixSum + oneLoopSum * (k - 2) + prefixSum) % mod;
+                maxSumPossible2 = (suffixSum % mod + (oneLoopSum * (k - 2)) % mod + (prefixSum) % mod) % mod;
             }
-            int maxSum = Math.max(maxSumPossible1, maxSumPossible2);
-            return maxSum;
+            return (int) Math.max(maxSumPossible1, maxSumPossible2);
         }
     }
 
@@ -76,25 +70,25 @@ public class KConcatenationMaxSum {
      * @param arr
      * @return
      */
-    private int maxPrefixSum(int[] arr) {
-        int maxSum = 0;
-        int curSum = 0;
+    private long maxPrefixSum(int[] arr) {
+        long maxSum = 0;
+        long curSum = 0;
         for (int val : arr) {
             curSum += val;
-            if(curSum > maxSum){
+            if (curSum > maxSum) {
                 maxSum = curSum;
             }
         }
         return Math.max(maxSum, 0);
     }
 
-    private int maxSuffixSum(int[] arr) {
-        int maxSum = 0;
-        int curSum = 0;
+    private long maxSuffixSum(int[] arr) {
+        long maxSum = 0;
+        long curSum = 0;
         for (int i = arr.length - 1; i >= 0; i--) {
             int val = arr[i];
             curSum += val;
-            if(curSum > maxSum){
+            if (curSum > maxSum) {
                 maxSum = curSum;
             }
         }

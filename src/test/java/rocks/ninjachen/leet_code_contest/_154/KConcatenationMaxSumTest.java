@@ -53,7 +53,7 @@ public class KConcatenationMaxSumTest {
         String line0 = lines.get(0);
         int[]  arr = FileUtil.parseLineToIntArray(line0);
         int k = Integer.parseInt(lines.get(1));
-        Assert.assertEquals(664859242, solution.kConcatenationMaxSum(arr, k));
+        Assert.assertEquals(400074118, solution.kConcatenationMaxSum(arr, k));
     }
 
 }
