@@ -1,5 +1,6 @@
 package rocks.ninjachen.leet_code_contest._150;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import rocks.ninjachen.hacker_rank_soulutions.Constants;
@@ -16,10 +17,18 @@ public class AsFarFromLandAsPossibleTest {
     }
 
     @Test
-    public void maxDistance() {
-        String name = Constants.BASE_DIR_LEETCODE + "as-far-from-land-as-possible";
+    public void maxDistance1() {
+        String name = Constants.BASE_DIR_LEETCODE + "as-far-from-land-as-possible1";
         List<String> lines = ResourceUtil.getResourceLines(getClass().getClassLoader(), name);
         int[][] grid = ResourceUtil.parse2dArray(lines.get(0));
-        System.out.println(solution.maxDistance(grid));
+        Assert.assertEquals(4, solution.maxDistance(grid));
+    }
+
+    @Test
+    public void maxDistance2() {
+        String name = Constants.BASE_DIR_LEETCODE + "as-far-from-land-as-possible2";
+        List<String> lines = ResourceUtil.getResourceLines(getClass().getClassLoader(), name);
+        int[][] grid = ResourceUtil.parse2dArray(lines.get(0));
+        Assert.assertEquals(2, solution.maxDistance(grid));
     }
 }
