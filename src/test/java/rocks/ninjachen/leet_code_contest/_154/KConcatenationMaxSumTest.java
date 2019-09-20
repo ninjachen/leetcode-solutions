@@ -3,14 +3,8 @@ package rocks.ninjachen.leet_code_contest._154;
 import org.junit.Assert;
 import org.junit.Test;
 import rocks.ninjachen.hacker_rank_soulutions.Constants;
-import rocks.ninjachen.util.FileUtil;
+import rocks.ninjachen.util.ResourceUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class KConcatenationMaxSumTest {
@@ -49,9 +43,9 @@ public class KConcatenationMaxSumTest {
     @Test
     public void testCase6() {
         String name = Constants.BASE_DIR_LEETCODE + "k-concatenation-max-sum.txt";
-        List<String> lines = FileUtil.getResourceLines(getClass().getClassLoader(), name);
+        List<String> lines = ResourceUtil.getResourceLines(getClass().getClassLoader(), name);
         String line0 = lines.get(0);
-        int[]  arr = FileUtil.parseLineToIntArray(line0);
+        int[]  arr = ResourceUtil.parseLineToIntArray(line0);
         int k = Integer.parseInt(lines.get(1));
         Assert.assertEquals(400074118, solution.kConcatenationMaxSum(arr, k));
     }

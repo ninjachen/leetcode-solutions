@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class FileUtil {
+public class ResourceUtil {
 
     public static List<String> getResourceLines(ClassLoader classLoader, String name) {
         InputStream expectIn = classLoader.getResourceAsStream(name);
@@ -57,5 +57,30 @@ public class FileUtil {
             output[i] = outputList.get(i);
         }
         return output;
+    }
+
+    /**
+     * Parse 2d array
+     * Reference: https://stackoverflow.com/questions/29546564/convert-string-into-a-two-dimensional-array
+     * @param str like "[[1,0,0],[0,0,0],[0,0,0]]"
+     * @return java array
+     */
+    public static int[][] parse2dArray(String str) {
+        str = str.replace("[", "");//replacing all [ to ""
+        str = str.substring(0, str.length() - 2);//ignoring last two ]]
+        String rowStrs[] = str.split("],");//separating all by "],"
+
+        int matrix[][] = new int[rowStrs.length][rowStrs[0].split(",").length];//declaring two dimensional matrix for input
+
+        for (int i = 0; i < rowStrs.length; i++) {
+            rowStrs[i] = rowStrs[i].trim();//ignoring all extra space if the string s1[i] has
+            String singleIntStr[] = rowStrs[i].split(",");//separating integers by ", "
+
+            for (int j = 0; j < singleIntStr.length; j++) {
+                int item = Integer.parseInt(singleIntStr[j]);
+                matrix[i][j] = item;//adding single values
+            }
+        }
+        return matrix;
     }
 }

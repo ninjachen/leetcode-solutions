@@ -1,6 +1,8 @@
 package rocks.ninjachen.leet_code_contest._150;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.List;
 
 /**
  * https://leetcode.com/contest/weekly-contest-150/problems/as-far-from-land-as-possible/
@@ -50,14 +52,14 @@ public class AsFarFromLandAsPossible {
         boolean setDistanceOK = true;
         for (int dis = 1; setDistanceOK; dis++) {
             // all set false, then false
-            boolean insideBounds = false;
+            boolean continueScan = false;
             for (int i = 0; i <= dis; i++) {
-                insideBounds = insideBounds | setDistance(landCellI + i, landCellJ + (dis - i), dis, nearestDistanceMatrix, waterBitSet);
-                insideBounds = insideBounds | setDistance(landCellI + i, landCellJ - (dis - i), dis, nearestDistanceMatrix, waterBitSet);
-                insideBounds = insideBounds | setDistance(landCellI - i, landCellJ + (dis - i), dis, nearestDistanceMatrix, waterBitSet);
-                insideBounds = insideBounds | setDistance(landCellI - i, landCellJ - (dis - i), dis, nearestDistanceMatrix, waterBitSet);
+                continueScan = continueScan | setDistance(landCellI + i, landCellJ + (dis - i), dis, nearestDistanceMatrix, waterBitSet);
+                continueScan = continueScan | setDistance(landCellI + i, landCellJ - (dis - i), dis, nearestDistanceMatrix, waterBitSet);
+                continueScan = continueScan | setDistance(landCellI - i, landCellJ + (dis - i), dis, nearestDistanceMatrix, waterBitSet);
+                continueScan = continueScan | setDistance(landCellI - i, landCellJ - (dis - i), dis, nearestDistanceMatrix, waterBitSet);
             }
-            setDistanceOK = insideBounds;
+            setDistanceOK = continueScan;
         }
 
     }
@@ -76,11 +78,15 @@ public class AsFarFromLandAsPossible {
         if (i >= 0 && i < distanceMatrix.length
                 && j >= 0 && j < distanceMatrix[0].length) {
             // If the cell is water
-            if(waterBitSet.get(i*distanceMatrix[0].length + j)){
+            if (waterBitSet.get(i * distanceMatrix[0].length + j)) {
                 int originValue = distanceMatrix[i][j];
                 // Set nearest distance
-                if(originValue == -1 || originValue > distance){
+                if (originValue == -1 || originValue > distance) {
                     distanceMatrix[i][j] = distance;
+                }
+                // Already has a short distance
+                if (originValue != -1 && originValue < distance) {
+                    return false;
                 }
             }
             return true;
