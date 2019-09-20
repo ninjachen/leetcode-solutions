@@ -1,4 +1,4 @@
-package rocks.ninjachen.leet_code_solutions;
+package rocks.ninjachen.leet_code_contest._153;
 
 public class DayOfTheWeek {
     public static void main(String[] args) {

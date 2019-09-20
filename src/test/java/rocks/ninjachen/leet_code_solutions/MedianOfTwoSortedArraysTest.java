@@ -1,7 +1,7 @@
 package rocks.ninjachen.leet_code_solutions;
 
 import org.junit.Test;
-import rocks.ninjachen.hacker_rank_soulutions.AlmostSorted;
+import rocks.ninjachen.leet_code_contest._150.MedianOfTwoSortedArrays;
 
 import static org.junit.Assert.*;
 

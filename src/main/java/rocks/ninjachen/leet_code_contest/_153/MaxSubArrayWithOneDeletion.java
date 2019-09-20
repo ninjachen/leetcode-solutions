@@ -1,4 +1,4 @@
-package rocks.ninjachen.leet_code_solutions;
+package rocks.ninjachen.leet_code_contest._153;
 
 /**
  * https://leetcode.com/contest/weekly-contest-153/problems/maximum-subarray-sum-with-one-deletion/

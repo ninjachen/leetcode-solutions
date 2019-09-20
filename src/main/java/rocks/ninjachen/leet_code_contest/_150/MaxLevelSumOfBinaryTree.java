@@ -1,4 +1,4 @@
-package rocks.ninjachen.leet_code_solutions;
+package rocks.ninjachen.leet_code_contest._150;
 
 import java.util.ArrayList;
 import java.util.HashMap;
