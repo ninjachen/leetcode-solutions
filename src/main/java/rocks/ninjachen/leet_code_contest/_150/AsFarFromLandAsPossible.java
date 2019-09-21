@@ -14,48 +14,16 @@ import java.util.*;
  */
 @SuppressWarnings("Duplicates")
 public class AsFarFromLandAsPossible {
-    public static class Cell {
-        private int i;
-        private int j;
-
-        public Cell(int i, int j) {
-            this.i = i;
-            this.j = j;
-        }
-
-        public int getI() {
-            return i;
-        }
-
-        public int getJ() {
-            return j;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Cell cell = (Cell) o;
-            return getI() == cell.getI() &&
-                    getJ() == cell.getJ();
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(getI(), getJ());
-        }
-    }
-
     public int maxDistance(int[][] grid) {
-        Set<Cell> waterSet = new HashSet<>();
-        Set<Cell> landSet = new HashSet<>();
+        Set<Integer> waterSet = new HashSet<>();
+        Set<Integer> landSet = new HashSet<>();
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-//                int index = i * grid[0].length + j;
+                int index = i * grid[0].length + j;
                 if (grid[i][j] == 1) {
-                    landSet.add(new Cell(i, j));
+                    landSet.add(index);
                 } else if (grid[i][j] == 0) {
-                    waterSet.add(new Cell(i, j));
+                    waterSet.add(index);
                 }
             }
         }
@@ -64,9 +32,9 @@ public class AsFarFromLandAsPossible {
         }
         // Mark every water cell with distance 1
         for (int distance = 1; !waterSet.isEmpty(); distance++) {
-            for (Cell landIndex : landSet) {
-                int i = landIndex.getI();
-                int j = landIndex.getJ();
+            for (int landIndex : landSet) {
+                int i = landIndex / grid[0].length;
+                int j = landIndex % grid[0].length;
                 for (int z = 0; z <= distance; z++) {
                     setDistance(i + z, j + (distance - z), grid, waterSet, distance);
                     setDistance(i + z, j - (distance - z), grid, waterSet, distance);
@@ -96,16 +64,15 @@ public class AsFarFromLandAsPossible {
      * @param waterSet
      * @param distance
      */
-    private void setDistance(int i, int j, int[][] grid, Set<Cell> waterSet, int distance) {
-//        int index = i * grid[0].length + j;
+    private void setDistance(int i, int j, int[][] grid, Set<Integer> waterSet, int distance) {
+        int index = i * grid[0].length + j;
         // Out of bounds
         if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length){
             return;
         }
-        Cell cell = new Cell(i, j);
-        if(grid[i][j] == 0 && waterSet.contains(cell)){
+        if(grid[i][j] == 0 && waterSet.contains(index)){
             grid[i][j] = distance + 1;
-            waterSet.remove(cell);
+            waterSet.remove(index);
         }
     }
 }
