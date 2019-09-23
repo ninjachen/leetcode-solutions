@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ResourceUtil {
 
@@ -62,6 +59,7 @@ public class ResourceUtil {
     /**
      * Parse 2d array
      * Reference: https://stackoverflow.com/questions/29546564/convert-string-into-a-two-dimensional-array
+     *
      * @param str like "[[1,0,0],[0,0,0],[0,0,0]]"
      * @return java array
      */
@@ -82,5 +80,17 @@ public class ResourceUtil {
             }
         }
         return matrix;
+    }
+
+    public static List<List<Integer>> parse2dList(String str) {
+        int[][] array = parse2dArray(str);
+        List<List<Integer>> lists = new ArrayList<>();
+        for (int i = 0; i < array.length; i++) {
+            int[] ints = array[i];
+            List<Integer> list = new ArrayList<>();
+            Arrays.stream(ints).forEach(item -> list.add(item));
+            lists.add(list);
+        }
+        return lists;
     }
 }
