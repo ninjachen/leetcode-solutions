@@ -6,7 +6,7 @@ public class SmallestStringWithSwaps {
 
     public String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
         // <Index, list of all chars>
-        Map<Integer, List<Character>> map = new HashMap<>();
+        Map<Integer, PriorityQueue<Character>> map = new HashMap<>();
 
         UnionFind unionFind = new UnionFind(s.length());
         for (int i = 0; i < pairs.size(); i++) {
@@ -17,16 +17,13 @@ public class SmallestStringWithSwaps {
         for (int i = 0; i < chars.length; i++) {
             char c = s.charAt(i);
             int iRoot = unionFind.findRoot(i);
-            map.computeIfAbsent(iRoot, k-> new ArrayList<>());
-            map.get(iRoot).add(c);
-        }
-        for (List<Character> list : map.values()) {
-            Collections.sort(list);
+            map.computeIfAbsent(iRoot, k-> new PriorityQueue<>());
+            map.get(iRoot).offer(c);
         }
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < chars.length; i++) {
             int iRoot = unionFind.findRoot(i);
-            char smallestChar = map.get(iRoot).remove(0);
+            char smallestChar = map.get(iRoot).poll();
             sb.append(smallestChar);
         }
         return sb.toString();
