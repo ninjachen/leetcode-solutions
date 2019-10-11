@@ -3,6 +3,9 @@ package rocks.ninjachen.leet_code_solutions;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * https://leetcode.com/problems/word-ladder/
+ */
 public class WordLadder {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         if (!wordList.contains(endWord)) {
