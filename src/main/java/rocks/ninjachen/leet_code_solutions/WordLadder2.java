@@ -4,7 +4,6 @@ package rocks.ninjachen.leet_code_solutions;
 import java.util.*;
 
 public class WordLadder2 {
-    static long startT = System.currentTimeMillis();
 
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> result = new ArrayList<>();
@@ -14,15 +13,16 @@ public class WordLadder2 {
         }
         HashMap<String, Integer> distanceMap = new HashMap<>();
         HashMap<String, List<String>> neighborMap = new HashMap<>();
+        neighborMap.put(beginWord, new ArrayList<>());
         for (String word : wordList) {
             neighborMap.put(word, new ArrayList<>());
         }
-        System.out.println(String.format("before bfs cost %d ms", System.currentTimeMillis() - startT));
+//        System.out.println(String.format("before bfs cost %d ms", System.currentTimeMillis() - startT));
         bfs(beginWord, endWord, dict, distanceMap, neighborMap);
-        System.out.println(String.format("bfs cost %d ms", System.currentTimeMillis() - startT));
+//        System.out.println(String.format("bfs cost %d ms", System.currentTimeMillis() - startT));
         List<String> curPath = new ArrayList<>();
         dfs(beginWord, endWord, dict, distanceMap, neighborMap, curPath, result);
-        System.out.println(String.format("bfs cost %d ms", System.currentTimeMillis() - startT));
+//        System.out.println(String.format("bfs cost %d ms", System.currentTimeMillis() - startT));
         return result;
 
     }
