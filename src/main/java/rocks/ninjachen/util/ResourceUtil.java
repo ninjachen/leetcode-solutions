@@ -36,6 +36,7 @@ public class ResourceUtil {
      * @param line such as "[1,2,3,4]" string
      * @return
      */
+    @Deprecated
     public static int[] parseLineToIntArray(String line) {
         char[] inputChars = line.toCharArray();
         List<Integer> outputList = new ArrayList<>();
@@ -54,6 +55,53 @@ public class ResourceUtil {
             output[i] = outputList.get(i);
         }
         return output;
+    }
+
+//    public static int[] parseLineToIntArray(String line) {
+//        char[] inputChars = line.toCharArray();
+//        List<Integer> outputList = new ArrayList<>();
+//        if (inputChars[0] == '[' && inputChars[inputChars.length - 1] == ']') {
+//            int i = 1, startIndex = 1;
+//            for (; i < inputChars.length - 1; i++) {
+//                char curChar = inputChars[i];
+//                if (curChar == ',') {
+//                    Integer item = Integer.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, i)));
+//                    outputList.add(item);
+//                    startIndex = i + 1;
+//                }
+//            }
+//            Integer item = Integer.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, inputChars.length - 1)));
+//            outputList.add(item);
+//        }
+//        int[] output = new int[outputList.size()];
+//        for (int i = 0; i < outputList.size(); i++) {
+//            output[i] = outputList.get(i);
+//        }
+//        return output;
+//    }
+
+    /**
+     * @param line such as "["hot","dot","dog","lot","log","cog"]" string
+     * @return
+     */
+    public static List<String> parseLineToStringList(String line) {
+        char[] inputChars = line.toCharArray();
+        List<String> outputList = new ArrayList<>();
+        if (inputChars[0] == '[' && inputChars[inputChars.length - 1] == ']') {
+            int i = 1, startIndex = 1;
+            for (; i < inputChars.length - 1; i++) {
+                char curChar = inputChars[i];
+                if (curChar == ',') {
+                    // Exclude the ""
+                    String item = new String(Arrays.copyOfRange(inputChars, startIndex + 1, i - 1));
+                    outputList.add(item);
+                    startIndex = i + 1;
+                }
+            }
+            String item = new String(Arrays.copyOfRange(inputChars, startIndex + 1, inputChars.length - 2));
+            outputList.add(item);
+        }
+        return outputList;
     }
 
     /**
@@ -92,5 +140,53 @@ public class ResourceUtil {
             lists.add(list);
         }
         return lists;
+    }
+
+    public static String printList(List<List<String>> ans) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        Iterator<List<String>> it = ans.iterator();
+        if (!it.hasNext())
+            return "[]";
+
+        for (; ; ) {
+            List<String> e = it.next();
+            Iterator<String> innIt = e.iterator();
+            if (!innIt.hasNext()) {
+                sb.append("[]");
+                return sb.toString();
+            } else {
+                sb.append("[");
+                for (; ; ) {
+                    String s = innIt.next();
+                    sb.append('"');
+                    sb.append(s);
+                    sb.append('"');
+                    if (!innIt.hasNext()) {
+                        sb.append("]");
+                        break;
+                    } else {
+                        sb.append(',');
+                    }
+                }
+                if (!it.hasNext())
+                    return sb.append(']').toString();
+                sb.append(',');
+            }
+        }
+    }
+
+    /**
+     * Input "s"
+     * Output s
+     *
+     * @param str
+     * @return
+     */
+    public static String parseString(String str) {
+        if (str.charAt(0) == '"' && str.charAt(str.length() - 1) == '"') {
+            str = str.substring(1, str.length() -1);
+        }
+        return str;
     }
 }
