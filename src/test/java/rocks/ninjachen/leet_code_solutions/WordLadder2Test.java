@@ -45,12 +45,4 @@ public class WordLadder2Test {
         Assert.assertEquals("[]", ResourceUtil.printList(ans));
     }
 
-    @Test
-    public void testcase5() {
-        String name = Constants.BASE_DIR_LEETCODE + "word-ladder-ii";
-        List<String> lines = ResourceUtil.getResourceLines(getClass().getClassLoader(), name);
-        List<String> dict = ResourceUtil.parseLineToStringList(lines.get(2));
-        List<List<String>> ans = new WordLadder22().findLadders(ResourceUtil.parseString(lines.get(0)), ResourceUtil.parseString(lines.get(1)), dict);
-        Assert.assertEquals("[]", ResourceUtil.printList(ans));
-    }
 }
