@@ -4,21 +4,24 @@ package rocks.ninjachen.leet_code_solutions;
 import java.util.*;
 
 public class WordLadder2 {
+    static long startT = System.currentTimeMillis();
+
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
-        long startT = System.currentTimeMillis();
         List<List<String>> result = new ArrayList<>();
-        if (!wordList.contains(endWord)) {
+        HashSet<String> dict = new HashSet<>(wordList);
+        if (!dict.contains(endWord)) {
             return result;
         }
         HashMap<String, Integer> distanceMap = new HashMap<>();
         HashMap<String, List<String>> neighborMap = new HashMap<>();
-//        for (String word : wordList) {
-//            neighborMap.put(word, new ArrayList<>());
-//        }
-        bfs(beginWord, endWord, wordList, distanceMap, neighborMap);
+        for (String word : wordList) {
+            neighborMap.put(word, new ArrayList<>());
+        }
+        System.out.println(String.format("before bfs cost %d ms", System.currentTimeMillis() - startT));
+        bfs(beginWord, endWord, dict, distanceMap, neighborMap);
         System.out.println(String.format("bfs cost %d ms", System.currentTimeMillis() - startT));
         List<String> curPath = new ArrayList<>();
-        dfs(beginWord, endWord, wordList, distanceMap, neighborMap, curPath, result);
+        dfs(beginWord, endWord, dict, distanceMap, neighborMap, curPath, result);
         System.out.println(String.format("bfs cost %d ms", System.currentTimeMillis() - startT));
         return result;
 
@@ -33,7 +36,7 @@ public class WordLadder2 {
      * @param neighborMap
      * @param result
      */
-    private void dfs(String beginWord, String endWord, List<String> dict, HashMap<String, Integer> distanceMap, HashMap<String, List<String>> neighborMap, List<String> curPath, List<List<String>> result) {
+    private void dfs(String beginWord, String endWord, HashSet<String> dict, HashMap<String, Integer> distanceMap, HashMap<String, List<String>> neighborMap, List<String> curPath, List<List<String>> result) {
         curPath.add(beginWord);
         if (beginWord.equals(endWord)) {
             result.add(new ArrayList<>(curPath));
@@ -60,45 +63,38 @@ public class WordLadder2 {
      * @param distanceMap
      * @param neighborMap
      */
-    private void bfs(String beginWord, String endWord, List<String> dict, HashMap<String, Integer> distanceMap, HashMap<String, List<String>> neighborMap) {
+    private void bfs(String beginWord, String endWord, HashSet<String> dict, HashMap<String, Integer> distanceMap, HashMap<String, List<String>> neighborMap) {
         Queue<String> queue = new LinkedList<>();
         queue.offer(beginWord);
         distanceMap.put(beginWord, 0);
-        int queueSize = 1;
         boolean gotcha = false;
-        int count = 0;
         while (!queue.isEmpty()) {
-            String curWord = queue.poll();
-            int curDistance = distanceMap.get(curWord);
-            List<String> neighbors = getNeighbors(curWord, dict);
-            neighborMap.put(curWord, neighbors);
-            for (String neighbor : neighbors) {
-                count++;
-                if (distanceMap.containsKey(neighbor)) {
-                    continue;
-                }
-                distanceMap.put(neighbor, curDistance + 1);
-                if (endWord.equals(neighbor)) {
-                    gotcha = true;
-                } else {
-                    queue.offer(neighbor);
+            int queueSize = queue.size();
+            for (int i = 0; i < queueSize; i++) {
+                String curWord = queue.poll();
+                int curDistance = distanceMap.get(curWord);
+                List<String> neighbors = getNeighbors(curWord, dict);
+                for (String neighbor : neighbors) {
+                    neighborMap.get(curWord).add(neighbor);
+                    if (distanceMap.containsKey(neighbor)) {
+                        continue;
+                    }
+                    distanceMap.put(neighbor, curDistance + 1);
+                    if (endWord.equals(neighbor)) {
+                        gotcha = true;
+                    } else {
+                        queue.offer(neighbor);
+                    }
                 }
             }
-            //
-            queueSize--;
-            if (queueSize == 0) {
-                if (gotcha) {
-                    break;
-                } else {
-                    queueSize = queue.size();
-                }
+            if (gotcha) {
+                break;
             }
         }
-        System.out.println("count is " + count);
 
     }
 
-    private List<String> getNeighbors(String curWord, List<String> dict) {
+    private List<String> getNeighbors(String curWord, HashSet<String> dict) {
         List<String> allNeighbors = new ArrayList<>();
         char[] chars = curWord.toCharArray();
         for (char c = 'a'; c <= 'z'; c++) {
