@@ -4,6 +4,7 @@ import java.util.*;
 
 public class WordLadder22 {
     public List<List<String>> findLadders(String start, String end, List<String> wordList) {
+        long startT = System.currentTimeMillis();
         HashSet<String> dict = new HashSet<String>(wordList);
         List<List<String>> res = new ArrayList<List<String>>();
         HashMap<String, ArrayList<String>> nodeNeighbors = new HashMap<String, ArrayList<String>>();// Neighbors for every node
@@ -12,7 +13,9 @@ public class WordLadder22 {
 
         dict.add(start);
         bfs(start, end, dict, nodeNeighbors, distance);
+        System.out.println(String.format("bfs cost %d ms", System.currentTimeMillis() - startT));
         dfs(start, end, dict, nodeNeighbors, distance, solution, res);
+        System.out.println(String.format("dfs cost %d ms", System.currentTimeMillis() - startT));
         return res;
     }
 
@@ -24,7 +27,7 @@ public class WordLadder22 {
         Queue<String> queue = new LinkedList<String>();
         queue.offer(start);
         distance.put(start, 0);
-
+        int countL = 0;
         while (!queue.isEmpty()) {
             int count = queue.size();
             boolean foundEnd = false;
@@ -34,6 +37,7 @@ public class WordLadder22 {
                 ArrayList<String> neighbors = getNeighbors(cur, dict);
 
                 for (String neighbor : neighbors) {
+                    countL++;
                     nodeNeighbors.get(cur).add(neighbor);
                     if (!distance.containsKey(neighbor)) {// Check if visited
                         distance.put(neighbor, curDistance + 1);
@@ -48,6 +52,8 @@ public class WordLadder22 {
             if (foundEnd)
                 break;
         }
+        System.out.println("count is " + countL);
+
     }
 
     // Find all next level nodes.
