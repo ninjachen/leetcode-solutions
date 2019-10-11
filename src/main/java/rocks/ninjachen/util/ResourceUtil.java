@@ -36,12 +36,12 @@ public class ResourceUtil {
      * @param line such as "[1,2,3,4]" string
      * @return
      */
-    @Deprecated
     public static int[] parseLineToIntArray(String line) {
         char[] inputChars = line.toCharArray();
         List<Integer> outputList = new ArrayList<>();
         if (inputChars[0] == '[' && inputChars[inputChars.length - 1] == ']') {
-            for (int i = 1, startIndex = 1; i < inputChars.length - 1; i++) {
+            int startIndex = 1;
+            for (int i = 1; i < inputChars.length - 1; i++) {
                 char curChar = inputChars[i];
                 if (curChar == ',') {
                     Integer item = Integer.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, i)));
@@ -49,6 +49,7 @@ public class ResourceUtil {
                     startIndex = i + 1;
                 }
             }
+            outputList.add(Integer.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, inputChars.length - 1))));
         }
         int[] output = new int[outputList.size()];
         for (int i = 0; i < outputList.size(); i++) {
@@ -188,5 +189,19 @@ public class ResourceUtil {
             str = str.substring(1, str.length() -1);
         }
         return str;
+    }
+
+    public static String printArray(int[] ints) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[");
+        for (int i = 0;i < ints.length; i++) {
+            sb.append(ints[i]);
+            if (i == ints.length -1) {
+                sb.append("]");
+            } else {
+                sb.append(',');
+            }
+        }
+        return sb.toString();
     }
 }
