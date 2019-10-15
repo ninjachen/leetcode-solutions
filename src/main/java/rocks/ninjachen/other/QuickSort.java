@@ -8,14 +8,14 @@ public class QuickSort {
     private int[] quickSort(int[] nums, int left, int right) {
         if (left < right) {
             int pivotIndex = left;
-            int partionedPivotIndex = partion(nums, left, right, pivotIndex);
+            int partionedPivotIndex = partition(nums, left, right, pivotIndex);
             quickSort(nums, left, partionedPivotIndex - 1);
             quickSort(nums, partionedPivotIndex + 1, right);
         }
         return nums;
     }
 
-    private int partion(int[] nums, int left, int right, int pivotIndex) {
+    private int partition(int[] nums, int left, int right, int pivotIndex) {
         //Move pivot to last
         int pivotVal = nums[pivotIndex];
         swap(nums, pivotIndex, right);
