@@ -42,7 +42,7 @@ public class KConcatenationMaxSumTest {
 
     @Test
     public void testCase6() {
-        String name = Constants.BASE_DIR_LEETCODE + "k-concatenation-max-sum.txt";
+        String name = Constants.BASE_DIR_LEETCODE + "k-concatenation-max-sum";
         List<String> lines = ResourceUtil.getResourceLines(getClass().getClassLoader(), name);
         String line0 = lines.get(0);
         int[]  arr = ResourceUtil.parseLineToIntArray(line0);

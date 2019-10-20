@@ -55,6 +55,15 @@ public class ResourceUtil {
     }
 
     /**
+     * @param line such as "["1","2","3","4"]" string
+     * @return
+     */
+    public static String[] parseLineToStringArray(String line) {
+        List<String> list = parseLineToStringList(line);
+        return list.stream().toArray(String[]::new);
+    }
+
+    /**
      * @param line such as "[1.2,2.1,3,4]" string
      * @return
      */
