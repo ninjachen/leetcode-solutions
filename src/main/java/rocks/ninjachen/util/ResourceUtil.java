@@ -51,11 +51,29 @@ public class ResourceUtil {
             }
             outputList.add(Integer.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, inputChars.length - 1))));
         }
-        int[] output = new int[outputList.size()];
-        for (int i = 0; i < outputList.size(); i++) {
-            output[i] = outputList.get(i);
+        return outputList.stream().mapToInt(i -> i).toArray();
+    }
+
+    /**
+     * @param line such as "[1.2,2.1,3,4]" string
+     * @return
+     */
+    public static double[] parseLineToDoubleArray(String line) {
+        char[] inputChars = line.toCharArray();
+        List<Double> outputList = new ArrayList<>();
+        if (inputChars[0] == '[' && inputChars[inputChars.length - 1] == ']') {
+            int startIndex = 1;
+            for (int i = 1; i < inputChars.length - 1; i++) {
+                char curChar = inputChars[i];
+                if (curChar == ',') {
+                    Double item = Double.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, i)));
+                    outputList.add(item);
+                    startIndex = i + 1;
+                }
+            }
+            outputList.add(Double.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, inputChars.length - 1))));
         }
-        return output;
+        return outputList.stream().mapToDouble(d -> d).toArray();
     }
 
 //    public static int[] parseLineToIntArray(String line) {
