@@ -5,38 +5,13 @@ package rocks.ninjachen.leet_code_contest.bi_11;
  */
 public class TossStrangeCoins {
     public double probabilityOfHeads(double[] prob, int target) {
-        // <target, cur>
-        double[] cache = new double[(target + 1) * prob.length];
-        return probabilityOfHeads(prob, 0, target, cache);
-    }
-
-    public double probabilityOfHeads(double[] prob, int cur, int target, double[] cache) {
-        if (cur >= prob.length) {
-            if (target == 0) {
-                return 1;
-            } else {
-                return 0;
+        double[] dp = new double[target + 1];
+        dp[0] = 1.0;
+        for (int i = 0; i < prob.length; i++) {
+            for (int k = Math.min(i + 1, target); k >= 0; k--) {
+                dp[k] = (k > 0 ? dp[k-1] : 0) * prob[i] + dp[k] * (1- prob[i]);
             }
         }
-        // Try to find cache
-        int index = target * prob.length + cur;
-        double cachedVal = cache[index];
-        if (cachedVal > 0) {
-            return cachedVal;
-        }
-        // Calculate the probability
-        double probability;
-        if (target == 0) {
-            probability = 1;
-            for (; cur < prob.length; cur++) {
-                probability *= (1 - prob[cur]);
-            }
-        } else {
-            double p = prob[cur];
-            probability = p * probabilityOfHeads(prob, cur + 1, target - 1, cache) + (1 - p) * probabilityOfHeads(prob, cur + 1, target, cache);
-        }
-        cache[index] = probability;
-        return probability;
+        return dp[target];
     }
-
 }

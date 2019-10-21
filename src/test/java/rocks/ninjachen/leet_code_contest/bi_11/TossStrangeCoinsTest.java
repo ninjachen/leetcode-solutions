@@ -23,6 +23,6 @@ public class TossStrangeCoinsTest {
     @Test
     public void testcase2() {
         double[] input = ResourceUtil.parseLineToDoubleArray("[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]");
-        Assert.assertEquals(99, solution.probabilityOfHeads(input, 99), 0);
+        Assert.assertEquals(0, solution.probabilityOfHeads(input, 99), 0);
     }
 }
