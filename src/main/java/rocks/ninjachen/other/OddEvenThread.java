@@ -1,6 +1,6 @@
 package rocks.ninjachen.other;
 
-public class OddEvenThread {
+public class OddEvenThread  {
     public static void main(String[] args) {
         printSequence();
 //        PriorityQueue q = null;
