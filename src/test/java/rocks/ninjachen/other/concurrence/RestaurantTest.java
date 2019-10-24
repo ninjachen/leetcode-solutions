@@ -1,4 +1,4 @@
-package rocks.ninjachen.other.ProducerAndConsumer;
+package rocks.ninjachen.other.concurrence;
 
 import org.junit.Test;
 
@@ -6,6 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * A simple producer and consumer case
+ */
 public class RestaurantTest {
 
     /**
