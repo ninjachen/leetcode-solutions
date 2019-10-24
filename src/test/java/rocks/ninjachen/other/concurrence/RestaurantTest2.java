@@ -5,13 +5,14 @@ import org.junit.Test;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * A simple producer and consumer case
- * Use Object.wait() and Object.notify()
+ * Use reentrantLock.lock() and reentrantLock.newCondition();
  */
-public class RestaurantTest {
-
+public class RestaurantTest2 {
     /**
      * Run this plz!
      * @param args
@@ -57,6 +58,8 @@ public class RestaurantTest {
 
     static class WaitPerson implements Runnable {
         private Restaurant restaurant;
+        private ReentrantLock lock = new ReentrantLock();
+        private Condition condition = lock.newCondition();
 
         public WaitPerson(Restaurant restaurant) {
             this.restaurant = restaurant;
@@ -66,15 +69,21 @@ public class RestaurantTest {
         public void run() {
             try {
                 while (!Thread.interrupted()) {
-                    synchronized (this) {
+                    lock.lock();
+                    try {
                         while (restaurant.meal == null) {
-                            wait();
+                            condition.await();
                         }
                         System.out.println("Waiter got " + restaurant.meal);
+                    } finally {
+                        lock.unlock();
                     }
-                    synchronized (restaurant.chef) {
+                    restaurant.chef.lock.lock();
+                    try {
                         restaurant.meal = null;
-                        restaurant.chef.notify();
+                        restaurant.chef.condition.signal();
+                    }finally {
+                        restaurant.chef.lock.unlock();
                     }
                 }
             } catch (InterruptedException e) {
@@ -86,6 +95,8 @@ public class RestaurantTest {
     static class Chef implements Runnable {
         private Restaurant restaurant;
         private int count = 0;
+        private ReentrantLock lock = new ReentrantLock();
+        private Condition condition = lock.newCondition();
 
         public Chef(Restaurant restaurant) {
             this.restaurant = restaurant;
@@ -95,19 +106,25 @@ public class RestaurantTest {
         public void run() {
             try {
                 while (!Thread.interrupted()) {
-                    synchronized (this) {
+                    lock.lock();
+                    try {
                         while (restaurant.meal != null) {
-                            wait();
+                            condition.await();
                         }
+                    }finally {
+                        lock.unlock();
                     }
                     if (++count == 10) {
                         System.out.println("Out of food. Closing.");
                         restaurant.exec.shutdownNow();
                     }
                     System.out.print("Order up!  ");
-                    synchronized (restaurant.waitPerson) {
+                    restaurant.waitPerson.lock.lock();
+                    try {
                         restaurant.meal = new Meal(count);
-                        restaurant.waitPerson.notify();
+                        restaurant.waitPerson.condition.signal();
+                    } finally {
+                        restaurant.waitPerson.lock.unlock();
                     }
                     TimeUnit.MILLISECONDS.sleep(100);
                 }
