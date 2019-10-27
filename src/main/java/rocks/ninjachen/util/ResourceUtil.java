@@ -170,7 +170,32 @@ public class ResourceUtil {
         return lists;
     }
 
-    public static String printList(List<List<String>> ans) {
+    @SuppressWarnings("Duplicates")
+    public static <T> String printList(List<T> ans) {
+        StringBuilder sb = new StringBuilder();
+        Iterator<T> innIt = ans.iterator();
+        if (!innIt.hasNext()) {
+            sb.append("[]");
+            return sb.toString();
+        } else {
+            sb.append("[");
+            for (; ; ) {
+                T s = innIt.next();
+                sb.append('"');
+                sb.append(s);
+                sb.append('"');
+                if (!innIt.hasNext()) {
+                    sb.append("]");
+                    break;
+                } else {
+                    sb.append(',');
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    public static String print2dList(List<List<String>> ans) {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         Iterator<List<String>> it = ans.iterator();
@@ -230,5 +255,9 @@ public class ResourceUtil {
             }
         }
         return sb.toString();
+    }
+
+    public static int[] toArray(List<Integer> list) {
+        return list.stream().mapToInt(i->i).toArray();
     }
 }
