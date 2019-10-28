@@ -3,6 +3,10 @@ package rocks.ninjachen.other;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicStampedReference;
+
+import static org.junit.Assert.assertEquals;
 
 public class NinjaTest {
 
@@ -88,5 +92,16 @@ public class NinjaTest {
             }
             return false;
         }
+    }
+
+    @Test
+    public void testCAS() {
+        AtomicInteger integer = new AtomicInteger(1);
+        int start = (int) (System.currentTimeMillis() / 1000);
+        AtomicStampedReference<Integer> i = new AtomicStampedReference<>(1, start);
+        int now = (int) (System.currentTimeMillis() / 1000);
+        assertEquals(true, integer.compareAndSet(1, 2));
+        // Fix ABA issue in CAS . use a timestamp
+        assertEquals(true, i.compareAndSet(1, 2, start, now));
     }
 }
