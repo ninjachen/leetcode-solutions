@@ -21,6 +21,6 @@ public class GrayCodeTest {
 
     @Test
     public void testcase2() {
-        assertEquals("[0,1]", ResourceUtil.printList(solution.grayCode(2)));
+        assertArrayEquals(new int[]{0, 1, 3, 2}, ResourceUtil.toArray(solution.grayCode(2)));
     }
 }
