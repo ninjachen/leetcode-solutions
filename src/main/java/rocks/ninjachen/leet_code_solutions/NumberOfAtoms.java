@@ -1,4 +1,4 @@
-package rocks.ninjachen.mockInterview;
+package rocks.ninjachen.leet_code_solutions;
 
 import java.util.HashMap;
 import java.util.Map;

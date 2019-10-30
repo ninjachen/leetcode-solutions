@@ -2,8 +2,7 @@ package rocks.ninjachen.mockInterview;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import rocks.ninjachen.leet_code_solutions.NumberOfAtoms;
 
 public class NumberOfAtomsTest {
     NumberOfAtoms solution;
