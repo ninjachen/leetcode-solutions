@@ -158,6 +158,30 @@ public class ResourceUtil {
         return matrix;
     }
 
+    /**
+     *
+     * @param str [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+     * @return
+     */
+    public static char[][] parseLineToCharArray(String str) {
+        str = str.replace("[", "");//replacing all [ to ""
+        str = str.substring(0, str.length() - 2);//ignoring last two ]]
+        String rowStrs[] = str.split("],");//separating all by "],"
+
+        char matrix[][] = new char[rowStrs.length][rowStrs[0].split(",").length];//declaring two dimensional matrix for input
+
+        for (int i = 0; i < rowStrs.length; i++) {
+            rowStrs[i] = rowStrs[i].trim();//ignoring all extra space if the string s1[i] has
+            String singleIntStr[] = rowStrs[i].split(",");//separating integers by ", "
+
+            for (int j = 0; j < singleIntStr.length; j++) {
+                char item = singleIntStr[j].toCharArray()[1];
+                matrix[i][j] = item;//adding single values
+            }
+        }
+        return matrix;
+    }
+
     public static List<List<Integer>> parse2dList(String str) {
         int[][] array = parse2dArray(str);
         List<List<Integer>> lists = new ArrayList<>();
@@ -260,4 +284,5 @@ public class ResourceUtil {
     public static int[] toArray(List<Integer> list) {
         return list.stream().mapToInt(i->i).toArray();
     }
+
 }

@@ -39,12 +39,13 @@ public class MaximalRectangle {
             }
             curLoop = nextLoop;
         }
+        Set<Square> allsquare2 = new HashSet<>();
         while (!curLoop.isEmpty()) {
             Set<Square> nextLoop = new HashSet<>();
             for (Square square : curLoop) {
                 Set<Square> squares = bfs(square, matrix);
                 for (Square s : squares) {
-                    if (allsquare.add(s)) {
+                    if (allsquare2.add(s)) {
                         nextLoop.add(s);
                     }
                 }
@@ -52,7 +53,7 @@ public class MaximalRectangle {
             curLoop = nextLoop;
         }
         int maxsize = 0;
-        for (Square square : allsquare) {
+        for (Square square : allsquare2) {
             int size = ((square.i2 - square.i1) + 1) * ((square.j2 - square.j1) + 1);
             maxsize = Math.max(maxsize, size);
         }
@@ -66,6 +67,7 @@ public class MaximalRectangle {
         int j2 = square.j2;
         int ii, jj;
         Set<Square> result = new HashSet<>();
+        boolean changed = false;
         // use cache
         if (isone(i1 - 1, j1, matrix)) {
             ii = i1 - 1;
@@ -79,6 +81,7 @@ public class MaximalRectangle {
             if (allone) {
                 setused(ii, j1, ii, j2, matrix);
 //                i1 = ii;
+                changed = true;
                 result.add(new Square(ii, j1, i2, j2));
             }
         }
@@ -95,6 +98,7 @@ public class MaximalRectangle {
             if (allone) {
                 setused(i1, jj, i2, jj, matrix);
 //                j1 = jj;
+                changed = true;
                 result.add(new Square(i1, jj, i2, j2));
             }
         }
@@ -111,6 +115,7 @@ public class MaximalRectangle {
             if (allone) {
                 setused(ii, j1, ii, j2, matrix);
 //                i2 = ii;
+                changed = true;
                 result.add(new Square(i1, j1, ii, j2));
             }
         }
@@ -127,8 +132,12 @@ public class MaximalRectangle {
             if (allone) {
                 setused(i1, jj, i2, jj, matrix);
 //                j2 = jj;
+                changed = true;
                 result.add(new Square(i1, j1, i2, jj));
             }
+        }
+        if(!changed) {
+            result.add(square);
         }
         return result;
     }
@@ -146,11 +155,11 @@ public class MaximalRectangle {
     }
 
     public void setused(int i1, int j1, int i2, int j2, char[][] matrix) {
-        for (int ii = i1; ii <= i2; ii++) {
-            for (int jj = j1; jj <= j2; jj++) {
-                used[ii][jj] = true;
-            }
-        }
+//        for (int ii = i1; ii <= i2; ii++) {
+//            for (int jj = j1; jj <= j2; jj++) {
+//                used[ii][jj] = true;
+//            }
+//        }
     }
 
     static class Square {
@@ -182,5 +191,4 @@ public class MaximalRectangle {
             return Objects.hash(i1, j1, i2, j2);
         }
     }
-
 }
