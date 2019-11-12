@@ -58,7 +58,7 @@ public class LRUCache {
     }
     int capacity;
     int used = 0;
-    // first node is the least recent use, tail node is the last use one;
+    // first node is the least recent use, tail node is the last use one; Another word, remove first node, add new value to tail
     Node head;
     Node tail;
     Map<Integer, Node> cache;
