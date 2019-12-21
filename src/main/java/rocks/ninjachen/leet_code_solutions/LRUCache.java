@@ -7,36 +7,6 @@ import java.util.Map;
  * Created by ninja on 3/9/16.
  */
 public class LRUCache {
-    public static void main(String[] args) {
-
-        LRUCache cache = new LRUCache(1);
-//        cache.set(2,1);
-//        cache.get(1);
-//        cache = new LRUCache(2);
-//        cache.set(2,1);
-//        cache.set(2,2);
-//        cache.set(1,1);
-//        cache.set(4,1);
-        testCase1();
-
-    }
-
-    private static void testCase1() {
-        LRUCache cache = new LRUCache(2);
-        cache.set(2,1);
-        cache.set(1,1);
-        cache.get(2);
-        cache.set(4,1);
-        cache.get(1);
-        cache.get(2);
-    }
-    private static void testCase2() {
-
-    }
-    private static void testCase3() {
-
-    }
-
 
     public static void showArray(int[] array) {
         for (int i = 0; i < array.length; i++) {
@@ -91,11 +61,12 @@ public class LRUCache {
         Node last = new Node(key, value);
         Node old = cache.put(key, last);
         if(head == null){
+            // empty linked list, head == null, tail == null, add a new node
             head = last;
             tail = last;
             used++;
         }else if (old == null) {
-            // key not exist
+            // key not exist, append the new node to tail
             tail.next = last;
             last.pre = tail;
             last.next = null;
@@ -109,7 +80,7 @@ public class LRUCache {
                 used++;
             }
         } else {
-            // key exist, refresh recent usage
+            // key exist, refresh recent usage, move the old node to tail
             activity(old);
         }
     }
@@ -119,20 +90,21 @@ public class LRUCache {
      * @param node
      */
     public void activity(Node node){
-        // if node is tail
-        if(node.next == null) return;
-        //remove old node
-        if(node.pre == null){
+        if(node.next == null) {
+            // if node is tail
+            return;
+        } else if(node.pre == null){
+            // if node is head
             head = node.next;
-        }else {
+            node.next.pre = node.pre;
+        } else {
             node.pre.next = node.next;
+            node.next.pre = node.pre;;
         }
-        node.next.pre = node.pre;
         // add node to the last position
         tail.next = node;
         node.next = null;
         node.pre = tail;
-
         tail = node;
     }
 }

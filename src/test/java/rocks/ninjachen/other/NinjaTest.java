@@ -35,9 +35,10 @@ public class NinjaTest {
 
     @Test
     public void test2() {
-        System.out.println(new Solution().reverse(1534236469));
+        System.out.println(new ReverseSolution().reverse(1534236469));
     }
-    class Solution {
+
+    class ReverseSolution {
         public int reverse(int x) {
             boolean isPositive = ( x > 0);
             x = Math.abs(x);
@@ -57,7 +58,7 @@ public class NinjaTest {
                 x = x % (int)Math.pow(10, i);
             }
             // reserve array
-            resrve(array);
+            reserve(array);
             // check overflow
             if(isOverflow(array)) {
                 return 0;
@@ -69,7 +70,7 @@ public class NinjaTest {
             return isPositive ? result : -result;
         }
 
-        private void resrve(int[] array) {
+        private void reserve(int[] array) {
             for(int a = 0, b = array.length - 1; a < b; a++, b-- ) {
                 int temp = array[a];
                 array[a] = array[b];
@@ -79,7 +80,7 @@ public class NinjaTest {
 
         private boolean isOverflow(int[] array) {
             int[] arrayMax = new int[]{2,1,4,7,4,8,3,6,4,7};
-            resrve(arrayMax);
+            reserve(arrayMax);
             if(array.length == arrayMax.length) {
                 for (int i = array.length - 1; i >= 0; i--) {
                     if (array[i] > arrayMax[i]) {
@@ -92,6 +93,122 @@ public class NinjaTest {
             }
             return false;
         }
+    }
+
+    @Test
+    public void testFullPerMutation() {
+        // full permutation
+        List<String> result = fullPerMutation(new int[]{2,3,4,7,9}, 3);
+        for (String i : result) {
+            System.out.println(i);
+        }
+    }
+
+    private List<String> fullPerMutation(int[] array, int num) {
+        List<String> allSolutions = new ArrayList<>();
+        for (int i = 0; i < array.length - num + 1; i++) {
+            List<Integer> curSolution = new ArrayList<>();
+            curSolution.add(array[i]);
+            fullPerMutation(array, i + 1, num, curSolution, allSolutions);
+            curSolution.remove(curSolution.size() - 1);
+        }
+        return allSolutions;
+    }
+
+    private void fullPerMutation(int[] array, int curIndex, int targetNum, List<Integer> curSolution, List<String> allSolutions) {
+        for (int i = curIndex; i < array.length; i++) {
+            curSolution.add(array[i]);
+            if (curSolution.size() == targetNum) {
+                StringBuffer sb = new StringBuffer();
+                for (Integer item : curSolution) {
+                    sb.append(item);
+                }
+                allSolutions.add(sb.toString());
+            } else {
+                fullPerMutation(array, i + 1, targetNum, curSolution, allSolutions);
+            }
+            curSolution.remove(curSolution.size() - 1);
+        }
+    }
+
+    @Test
+    public void testHeapPermutation() {
+        // full permutation
+//        heapPermutation(new int[]{1, 2, 3}, 3);
+        List<int[]> permutations = permutation(new int[]{1, 2, 3});
+        for (int[] arr : permutations) {
+            for (int i : arr) {
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Generating permutation using Heap Algorithm
+     * https://www.geeksforgeeks.org/heaps-algorithm-for-generating-permutations/
+     * https://en.wikipedia.org/wiki/Heap%27s_algorithm#cite_note-3
+     * @param a
+     * @param size
+     */
+    void heapPermutation(int a[], int size)
+    {
+        // if size becomes 1 then prints the obtained
+        // permutation
+        if (size == 1){
+            for (int i : a)
+                System.out.print(i);
+            System.out.println();
+        }
+
+        for (int i=0; i<size; i++)
+        {
+            heapPermutation(a, size-1);
+
+            // if size is odd, swap first and last
+            // element
+            if (size % 2 == 1)
+            {
+                int temp = a[0];
+                a[0] = a[size-1];
+                a[size-1] = temp;
+            }
+
+            // If size is even, swap ith and last
+            // element
+            else
+            {
+                int temp = a[i];
+                a[i] = a[size-1];
+                a[size-1] = temp;
+            }
+        }
+    }
+
+    private List<int[]> permutation(int a[]) {
+        List<int[]> prv = new ArrayList<>();
+        prv.add(new int[]{a[0]});
+        for (int i = 1; i < a.length; i++) {
+            List<int[]> cur = new ArrayList<>();
+            int val = a[i];
+            // put val into prv arr
+            for (int[] arr : prv) {
+                for (int index = 0; index < i + 1; index++) {
+                    int[] newArr = new int[i + 1];
+                    int oldIndex = 0;
+                    for (int ii = 0; ii < i + 1; ii++) {
+                        if (ii == index) {
+                            newArr[ii] = val;
+                        } else {
+                            newArr[ii] = arr[oldIndex++];
+                        }
+                    }
+                    cur.add(newArr);
+                }
+            }
+            prv = cur;
+        }
+        return prv;
     }
 
     @Test
