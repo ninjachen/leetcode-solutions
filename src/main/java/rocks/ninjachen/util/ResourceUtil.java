@@ -37,6 +37,16 @@ public class ResourceUtil {
      * @return
      */
     public static int[] parseLineToIntArray(String line) {
+        Integer[] integerArray = parseLineToIntegerArray(line);
+        int[] arr = new int[integerArray.length];
+        for(int i = 0; i < integerArray.length; i++) {
+            arr[i] = integerArray[i];
+        }
+        return arr;
+    }
+
+    // nullable return value
+    public static Integer[] parseLineToIntegerArray(String line) {
         char[] inputChars = line.toCharArray();
         List<Integer> outputList = new ArrayList<>();
         if (inputChars[0] == '[' && inputChars[inputChars.length - 1] == ']') {
@@ -44,14 +54,16 @@ public class ResourceUtil {
             for (int i = 1; i < inputChars.length - 1; i++) {
                 char curChar = inputChars[i];
                 if (curChar == ',') {
-                    Integer item = Integer.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, i)));
+                    String intString = new String(Arrays.copyOfRange(inputChars, startIndex, i));
+                    Integer item = "null".equals(intString) ? null : Integer.valueOf(intString);
                     outputList.add(item);
                     startIndex = i + 1;
                 }
             }
+            // last character
             outputList.add(Integer.valueOf(new String(Arrays.copyOfRange(inputChars, startIndex, inputChars.length - 1))));
         }
-        return outputList.stream().mapToInt(i -> i).toArray();
+        return outputList.toArray(new Integer[outputList.size()]);
     }
 
     /**
@@ -285,4 +297,24 @@ public class ResourceUtil {
         return list.stream().mapToInt(i->i).toArray();
     }
 
+    public static TreeNode parseTreeNode(String s) {
+        Integer[] intArray = parseLineToIntegerArray(s);
+        TreeNode root = new TreeNode(intArray[0]);
+        appendNode(intArray, root, 0);
+        return root;
+    }
+    private static void appendNode(Integer[] arr, TreeNode node, int index) {
+        int leftChildIndex = 2*index+1;
+        int rightChildIndex = 2*index+2;
+        if (leftChildIndex < arr.length && arr[leftChildIndex] != null) {
+            TreeNode left = new TreeNode(arr[leftChildIndex]);
+            node.left = left;
+            appendNode(arr, node.left, leftChildIndex);
+        }
+        if (rightChildIndex < arr.length && arr[rightChildIndex] != null) {
+            TreeNode right = new TreeNode(arr[rightChildIndex]);
+            node.right = right;
+            appendNode(arr, node.right, rightChildIndex);
+        }
+    }
 }
