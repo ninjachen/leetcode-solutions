@@ -1,8 +1,20 @@
 package rocks.ninjachen.other;
 
+import java.util.Random;
+
 public class QuickSort {
     public int[] sortArray(int[] nums) {
+        // shuffle array to avoid worst case
+//        shuffle(nums);
         return quickSort(nums, 0 ,nums.length -1);
+    }
+
+    private void shuffle(int[] nums) {
+        for(int i = 0; i < nums.length;i++){
+            Random random = new Random();
+            int newIndex = random.nextInt(i);
+            swap(nums, i, newIndex);
+        }
     }
 
     private int[] quickSort(int[] nums, int left, int right) {
